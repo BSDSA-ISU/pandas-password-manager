@@ -1,7 +1,6 @@
 import utils.Password as passwd
 #from utils import Encryption
 
-
 println = print
 def loop():
     terminator = True
@@ -17,5 +16,8 @@ def loop():
             terminator = True
         else:
             terminator = False
-        
-loop()
+
+try:
+    loop()
+except Exception:
+    print("bad user")
