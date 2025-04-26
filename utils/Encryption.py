@@ -89,3 +89,10 @@ def main():
         byte = Fernet.generate_key()
         writing = open("key.key", "wb")
         writing.write(byte)
+
+
+
+
+
+
+
