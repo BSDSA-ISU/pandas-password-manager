@@ -1,2 +1,5 @@
 *.ali
 key.key
+.i*
+.v*
+_*
