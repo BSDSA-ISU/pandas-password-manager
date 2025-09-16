@@ -20,8 +20,9 @@ class Check:
             del data
             return False
 
-
-
 tre = Check()
 
-
+def Checkit():
+    if tre.IsKeyMatched() == False:
+        print("key is mismatched. exiting.")
+        exit(9)
