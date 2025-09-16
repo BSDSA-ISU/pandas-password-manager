@@ -19,7 +19,7 @@ python -m venv .venv
 source .venv/bin/activate
 
 # activate on pwsh
-cd venv\Scripts\; .\activate.ps1 ; cd ..\..
+cd .venv\Scripts\; .\activate.ps1 ; cd ..\..
 
 # Finally install the dependencies
 pip install -r requirements.txt
