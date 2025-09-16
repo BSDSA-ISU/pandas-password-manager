@@ -1,5 +1,4 @@
 import utils.Password as passwd
-from utils.TestEncryption import Check, Checkit
 #from utils import Encryption
 
 println = print

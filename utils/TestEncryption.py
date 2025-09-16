@@ -14,17 +14,14 @@ class Check:
         try:
             data = open("passwords.csv.ali", "rb").read()
             self.r.decrypt(data)
-            del data
             return True
         except Exception:
-            del data
             return False
 
 tre = Check()
 
 def Checkit():
     if tre.IsKeyMatched() == False:
-        print("key is mismatched. exiting.")
         return False
     else:
         return True
