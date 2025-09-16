@@ -1,3 +1,36 @@
 # Password Manager
 
-<img src="https://imgs.search.brave.com/tWmVP4bLZYOL6cXaTQ2Hdu3BstvV1YwvzwOj8vVcaxo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L3l1/cnV5dXJpL2ltYWdl/cy80LzQ2L01pcmFr/dXJ1bi5mdWxsLjEw/MDU4NTMuanBnL3Jl/dmlzaW9uL2xhdGVz/dC9zY2FsZS10by13/aWR0aC1kb3duLzEw/ND9jYj0yMDE1MTAy/ODAyMDQ1OQ">
+## what is this?
+
+- its just a simple password manager using python.
+
+## Features
+
+- it provides some basic key based encryption using fernet
+
+## How to set up
+
+- run:
+
+```bash
+python -m venv .venv
+
+# activate on linux
+source .venv/bin/activate
+
+# activate on pwsh
+cd venv\Scripts\; .\activate.ps1 ; cd ..\..
+
+# Finally install the dependencies
+pip install -r requirements.txt
+```
+
+### Q and A
+
+- what if i lost my keyfile?
+  - too bad lol.
+- what if someone stole my key? how do i protect it?
+  - it can't be installed when no one uses your pc/laptop
+  - also to protect your key file. store it on external storage or on protected folders
+- is there some recovery methods here?
+  - nope.
