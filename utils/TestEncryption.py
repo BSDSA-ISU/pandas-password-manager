@@ -25,4 +25,6 @@ tre = Check()
 def Checkit():
     if tre.IsKeyMatched() == False:
         print("key is mismatched. exiting.")
-        exit(9)
+        return False
+    else:
+        return True
