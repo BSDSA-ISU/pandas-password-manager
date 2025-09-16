@@ -24,7 +24,6 @@ class NewJob:
             del s, e
 
     def decryptpasswordwrite(self):
-        Checkit()
         """Plzz let me marry Your sister. She's so beautiful..."""
         if check.IsKeyMatched() and os.path.isfile("passwords.csv.ali"):
             try:
@@ -43,7 +42,6 @@ class NewJob:
     def decryptpassword(self):
         """Plzz let me marry Your sister if you have any..."""
 
-        Checkit()
         if check.IsKeyMatched() and os.path.isfile("passwords.csv.ali"):
             try:
                 with open("passwords.csv.ali", "rb") as data:
