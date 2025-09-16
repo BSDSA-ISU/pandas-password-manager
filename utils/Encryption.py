@@ -3,6 +3,7 @@ from utils.TestEncryption import Checkit as check
 import binascii
 import pandas as pd
 import os
+from utils.FirstInit import make_password_file, make_key
 
 class NewJob:
     """
@@ -15,17 +16,13 @@ class NewJob:
             keybyte = open("key.key", "r")
             fernet = Fernet(key=keybyte.read())
         else:
-            s = open("key.key", "xb")
-            e = Fernet.generate_key()
-            s.write(e)
-            fernet = Fernet(key=e)
-            del s, e
+            make_key()
+
         # File check
-        if os.path.isfile("./password.csv.ali") == False or os.path.isfile("./password.csv") == False:
+        if os.path.isfile("./passwords.csv.ali") == False and os.path.isfile("./passwords.csv") == False:
             make_password_file()
 
     def decryptpasswordwrite(self):
-        """Plzz let me marry Your sister. She's so beautiful..."""
 
         # Checks if the keyfile can be used to decrypt the password file
         if check() and os.path.isfile("passwords.csv.ali"):
@@ -46,7 +43,6 @@ class NewJob:
             raise SyntaxError("The key doesn't match exiting to prevent damage or destruction on your password")
 
     def decryptpassword(self):
-        """Plzz let me marry Your sister if you have any..."""
 
         # Checks if the keyfile can be used to decrypt the password file
         if check() and os.path.isfile("passwords.csv.ali"):
@@ -79,7 +75,6 @@ class NewJob:
 
     # decrypts the password on read only(shows the password and exits)
     def decryptpasswordro(self):
-        """Plzz let me marry Your sister if you have any..."""
 
         if check() == True:
             with open("passwords.csv.ali", "rb") as data:
@@ -102,14 +97,3 @@ def main():
         byte = Fernet.generate_key()
         writing = open("key.key", "wb")
         writing.write(byte)
-
-# create the .csv password file if it doesn't exist
-def make_password_file():
-    passfile = open("myass", "w")
-    passfile.write("│user│website│password\n")
-    passfile.write("0│example│example│example")
-
-
-
-
-
