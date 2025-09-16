@@ -28,7 +28,7 @@ pip install -r requirements.txt
 ### Q and A
 
 - what if i lost my keyfile?
-  - too bad lol.
+  - too bad lol. no really:
 - what if someone stole my key? how do i protect it?
   - it can't be installed when no one uses your pc/laptop
   - also to protect your key file. store it on external storage or on protected folders

@@ -1,8 +1,15 @@
 import utils.Password as passwd
+from utils.TestEncryption import Check, Checkit
 #from utils import Encryption
 
 println = print
 def loop():
+    """
+    if c.IsKeyMatched() == False:
+        print("key is mismatched. exiting.")
+        exit(9)
+"""
+
     terminator = True
     x = passwd.Password()
     while terminator:
