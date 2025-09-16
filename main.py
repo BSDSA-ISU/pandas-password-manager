@@ -24,7 +24,5 @@ def loop():
         else:
             terminator = False
 
-try:
-    loop()
-except Exception:
-    print("bad user")
+loop()
+

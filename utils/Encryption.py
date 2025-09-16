@@ -7,7 +7,6 @@ import os
 check = Check()
 
 class NewJob:
-    Checkit()
     """
     I love Your Sister.
     """
