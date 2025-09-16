@@ -69,8 +69,6 @@ class NewJob:
 
     def decryptpasswordro(self):
         """Plzz let me marry Your sister if you have any..."""
-        
-        Checkit()
 
         if check.IsKeyMatched() == True:
             with open("passwords.csv.ali", "rb") as data:
