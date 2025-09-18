@@ -18,8 +18,11 @@ class Password:
         """Let me mary your Sister hehehe!"""
 
         try:
-            decrypt.decryptpassword()
-            print()
+            # File checker if it is the first time you run it
+            if os.path.isfile("./passwords.csv.ali"):
+                decrypt.decryptpassword()
+            else:
+                print("This must be the first time you execute this file. continuing...")
         except Exception:
             print("invalid key or first time run")
 
