@@ -32,13 +32,13 @@ class Decrypt:
 
             # throws this if there is corruption(different from mismatched key)
             except (InvalidToken, binascii.Error):
-                print("Invalid data")
-                return False
+                Error("decryption")
 
         # If the key is incorrect. it throws this
         else:
             raise SyntaxError("The key doesn't match exiting to prevent damage or destruction on your password")
 
+    # Decrypts the passwords
     def decryptpassword(self):
 
         # Checks if the keyfile can be used to decrypt the password file
@@ -52,7 +52,7 @@ class Decrypt:
 
             # throws this if there is corruption(different from mismatched key)
             except (InvalidToken, binascii.Error):
-                print("Invalid key")
+                Error("decryption")
                 return False
 
         else:
@@ -72,4 +72,13 @@ class Decrypt:
 
         else:
             return pd.DataFrame(["The Key turns out to be corrupted, mismatched or rotten"])
+
+def Error(ErrType : str):
+    if ErrType.lower() == "decryption":
+        print("Invalid key or corrupted key. please provide the correct key.key.")
+        exit(9)
+
+
+    print("Something went wrong")
+    exit(1)
 
