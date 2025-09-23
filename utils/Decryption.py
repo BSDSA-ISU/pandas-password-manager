@@ -73,6 +73,23 @@ class Decrypt:
         else:
             return pd.DataFrame(["The Key turns out to be corrupted, mismatched or rotten"])
 
+    def decryptpasswordshowwebsite(self):
+        if check() == True:
+            with open("passwords.csv.ali", "rb") as data:
+                dword = fernet.decrypt(data.read())
+            with open("passwords.csv", "wb") as cache:
+                cache.write(dword)
+            sss = pd.read_csv("passwords.csv", index_col=0)
+            a = sss['website'].sort_values(ascending=True).unique() # type: ignore
+            os.remove("passwords.csv")
+            for i in a:
+                print(i)
+            return a
+
+        else:
+            return pd.DataFrame(["The Key turns out to be corrupted, mismatched or rotten"])
+
+
 def Error(ErrType : str):
     if ErrType.lower() == "decryption":
         print("Invalid key or corrupted key. please provide the correct key.key.")
