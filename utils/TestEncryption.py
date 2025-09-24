@@ -1,4 +1,5 @@
 from cryptography.fernet import Fernet
+import os
 
 class Check:
     def __init__(self):
@@ -11,6 +12,8 @@ class Check:
 
 
     def IsKeyMatched(self):
+        if os.path.isfile("./password.csv.ali") != True and os.path.isfile("./key.key") != False:
+            return True
         try:
             data = open("passwords.csv.ali", "rb").read()
             self.r.decrypt(data)
