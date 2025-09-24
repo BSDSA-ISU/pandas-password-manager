@@ -8,3 +8,11 @@ decrypt = Decrypt()
 print(passwd.ShowPasswords())
 
 decrypt.decryptpasswordshowwebsite()
+
+print()
+
+web = input("website\n>>")
+
+x = decrypt.FindWebsite(web)
+
+print(x)

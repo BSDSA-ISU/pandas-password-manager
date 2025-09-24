@@ -9,9 +9,11 @@ class Decrypt:
 
     def __init__(self) -> None:
         global fernet
+
         if os.path.isfile("key.key"):
             keybyte = open("key.key", "r")
             fernet = Fernet(key=keybyte.read())
+
         else:
             keyfile = make_key()
             fernet = Fernet(key=keyfile)
@@ -26,6 +28,7 @@ class Decrypt:
             try:
                 with open("passwords.csv.ali", "rb") as data:
                     dword = fernet.decrypt(data.read())
+        
                 with open("passwords.csv", "wb") as thisdata:
                     thisdata.write(dword)
                     return True
@@ -43,9 +46,10 @@ class Decrypt:
 
         # Checks if the keyfile can be used to decrypt the password file
         if os.path.isfile("passwords.csv.ali"):
-            try:
+            try:        
                 with open("passwords.csv.ali", "rb") as data:
                     dword = fernet.decrypt(data.read())
+                
                 with open("passwords.csv", "wb") as thisdata:
                     thisdata.write(dword)
                     return True
@@ -64,37 +68,59 @@ class Decrypt:
         if check() == True:
             with open("passwords.csv.ali", "rb") as data:
                 dword = fernet.decrypt(data.read())
+
             with open("passwords.csv", "wb") as cache:
                 cache.write(dword)
+            
             sss = pd.read_csv("passwords.csv", index_col=0)
             os.remove("passwords.csv")
+            
             return sss
 
         else:
             return pd.DataFrame(["The Key turns out to be corrupted, mismatched or rotten"])
 
+    # show password and where or what website
     def decryptpasswordshowwebsite(self):
         if check() == True:
             with open("passwords.csv.ali", "rb") as data:
                 dword = fernet.decrypt(data.read())
+        
             with open("passwords.csv", "wb") as cache:
                 cache.write(dword)
+        
             sss = pd.read_csv("passwords.csv", index_col=0)
             a = sss['website'].sort_values(ascending=True).unique() # type: ignore
             os.remove("passwords.csv")
+        
             for i in a:
                 print(i)
+        
             return a
 
         else:
             return pd.DataFrame(["The Key turns out to be corrupted, mismatched or rotten"])
+
+    def FindWebsite(self, website : str):
+        if check() == True:
+            with open("passwords.csv.ali", "rb") as data:
+                dword = fernet.decrypt(data.read())
+        
+            with open("passwords.csv", "wb") as cache:
+                cache.write(dword)
+        
+            sss = pd.read_csv("passwords.csv", index_col=0)
+            os.remove("passwords.csv")
+
+        entry = sss[sss['website'].str.contains(website, case=False)]
+        return entry
+
 
 
 def Error(ErrType : str):
     if ErrType.lower() == "decryption":
         print("Invalid key or corrupted key. please provide the correct key.key.")
         exit(9)
-
 
     print("Something went wrong")
     exit(1)
