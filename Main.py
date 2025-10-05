@@ -7,7 +7,6 @@ if Checkit():
     pass
 else:
     print("key is invalid..")
-    exit(9)
 
 decrypt = Decrypt()
 passwd = Password()
