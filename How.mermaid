@@ -1,0 +1,130 @@
+flowchart TD
+    start(("start main")) --> passworenc
+
+    subgraph TestEncryption["checkit"]
+        passworenc{"if ./password.csv.ali exist"} --> |True| keyfile{"if key.key exist"} 
+        keyfile --> |True| True
+
+        passworenc --> |False| trydecrypt["Open password file"]
+        trydecrypt --> TryDecrypt["decrypt it"]
+        TryDecrypt --> |Correct key| True
+
+        TryDecrypt --> |exception| False
+    end
+
+    TestEncryption --> |True| Continue
+
+    TestEncryption --> Display[\"welcome to password manager"\]
+    TestEncryption --> |False| InvalidKey["\Display: Invalid Key"\]
+
+    Display --> Display2[\"Choose what to do: "\]
+
+    subgraph tryblock1["Try"]
+        Display2 --> Input1[/"User Input x = input()"/]
+
+        Input1 --> if1{"if User Input x is 1"}
+
+        if1 --> |True| InputUser[/"user = Your username"/]
+        InputUser --> InputWebsite[/"web = Websites you log on"/]
+        InputWebsite --> InputUserPassword["password = Password"]
+
+        InputUserPassword --> Process["Inserts it using user, website, password"]
+
+        Input1 --> if2{"if user input x is 2"}
+        if2 --> |True| DecryptsPasswordreadOnly
+
+        Input1 --> if3{"if user input x is 3"}
+        if3 --> |True| DecryptPassWebsite[decrypt.decryptpasswordshowwebsite]
+        DecryptPassWebsite --> DisplaySites[\"Display the list of websites from decrypted password"\]
+        DisplaySites --> PickWebsites["website = pick a website"]
+        PickWebsites --> ShowWebsite["Shows the website if it exists"]
+
+        Input1 --> |Else| Exit
+        Input1 --> |Not A number| displayErr["User Didn't follow instruction"] --> Exit
+    end
+
+    subgraph ModuleInsert["Module: insert"]
+        Process --> DeclareVariable1["initialize variable: newjob, check, encrypt, decrypt"]
+
+        DeclareVariable1 --> KeyFileCheck{"Is /passwords.csv exist?"}
+        KeyFileCheck --> |False| PasswordFileCheck{is ./passwords.csv.ali exists?}
+
+        MakePasswordFile --> CheckPasswordFile
+
+        KeyFileCheck --> |True| CheckPasswordFile
+        PasswordFileCheck --> |True| CheckPasswordFile
+
+        subgraph Tryblock2["try"]
+            CheckPasswordFile{"is passwords.csv.ali exists?"} --> |False| FirstTime[\"this Must be the first time You run this file"\]
+
+            CheckPasswordFile --> |True| Decrypt
+        end
+
+        subgraph MakeKey["make_key module"]
+            Createkey["Creates a key using Fernet.generate key as e"]
+           Createkey -->  NewMakeKey["writes it to key.key"]
+        end
+    
+        Tryblock2 --> |Exception| Exit2[exit safely]
+    end
+
+    PasswordFileCheck --> |False| Open
+
+    subgraph MakePasswordFile["module: make_password_file"]
+        Open[Opens password.csv for writing]
+        --> WriteKey["Writes │user│website│password inside it and save"]
+    end
+
+    subgraph DecryptClass["Module Decrypt"]
+        Checkkey{"Is key.key Exists?"} --> |True| Readkey["reads the key as keyybite"]
+        Readkey --> Fernet["Initialize fernet using the key as fernet"]
+
+        Checkkey --> |False| Createkey
+
+        NewMakeKey --> Ferenetc["initializes fernet with a new fresk key."]
+
+        Fernet --> KeyFileCheck1{"Is /passwords.csv exist?"}
+        KeyFileCheck1 --> |False| PasswordFileCheck1{is ./passwords.csv.ali exists?}
+        PasswordFileCheck1 --> |False| Open
+
+
+        subgraph decryptpasswordwrite["function: decryptpasswordwrite"]
+            CheckIt --> |True| IsPath["is password.csv.ali exist?"] --> |True| Encryptit
+        end
+
+
+    end
+
+    subgraph Check["Module TestEncryption"]
+        
+        subgraph try3["try:"]
+            ReadKey["reads the key.key as self.keys"] --> fernetin["Initializes fernet using the self.keys"]
+            
+            fernetin --> Delete["Delete: self.key"]
+        end
+
+        try3 --> |Exception| Ignore --> CheckPasswordFiles
+        Delete --> CheckPasswordFiles
+
+        subgraph IsKeymatched["function: IsKeyMatched"]
+            CheckPasswordFiles{"is passwords.csv.ali exist?"} --> |False| CheckKeyFiles{"Is key.key exist?"}
+            CheckKeyFiles --> |False| Return["Return True"]
+
+            subgraph try4["Try"]
+                OpenCrypted["opens the encrypted passwords.csv.ali as data"] --> DecryptIt["try to decrypt it using key.key"]
+                DecryptIt --> Return
+            end
+
+            try4 --> |Exception| False2["return False"]
+
+        end
+
+        subgraph CheckIt["Function: Checkit"]
+            Matched{"is key.key matched and valid?"} --> |True| Return
+            Matched --> |False| False2["return False"]
+        end
+
+    end
+
+
+    Display2 --> tryblock1 --> |Error\Exception| ExitSafely
