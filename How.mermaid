@@ -57,7 +57,10 @@ flowchart TD
         subgraph Tryblock2["try"]
             CheckPasswordFile{"is passwords.csv.ali exists?"} --> |False| FirstTime[\"this Must be the first time You run this file"\]
 
-            CheckPasswordFile --> |True| Decrypt
+            CheckPasswordFileagain{"is ./passwords.csv exists?"} --> |True| OpenDecrypted["opens ./passwords.csv as Passwords"]
+            CheckPasswordFileagain --> |False| DisplayMissingFile[\"missing file due to failed decryption. exiting"\] --> Exit5["Exit"]
+            OpenDecrypted --> InsertFinal["Finaly inserts: user, website password"]
+            InsertFinal --> savepassworddec["Saves as passwords.csv unencrypted"]
         end
 
         subgraph MakeKey["make_key module"]
@@ -67,6 +70,10 @@ flowchart TD
     
         Tryblock2 --> |Exception| Exit2[exit safely]
     end
+
+    decryptpasswordwrite --> |true| CheckPasswordFileagain
+
+    CheckPasswordFile --> |True| CheckIt1
 
     PasswordFileCheck --> |False| Open
 
@@ -89,9 +96,23 @@ flowchart TD
 
 
         subgraph decryptpasswordwrite["function: decryptpasswordwrite"]
-            CheckIt --> |True| IsPath["is password.csv.ali exist?"] --> |True| Encryptit
+            CheckIt1["is passwords.csv.ali exists?"] --> |True| IsPath["is password.csv.ali exist?"]
+
+            CheckIt1 --> |False| RaiseKeyError["Raises Error: The key doesn't match exiting to prevent damage or destruction on your password"] --> Exit4["Exit"]
+            IsPath --> |False| RaiseKeyError
+            subgraph try5["Try Decrypting"]
+                readpasswordenc["open passwords.csv.ali as binary"] --> datapasswordenc["reads the binary as dword"]
+                datapasswordenc --> Decryptit["try Decrypting it using key.key"]
+                Decryptit --> WriteUnencryptedPassword["creates passwords.csv as bynary mode"]
+                WriteUnencryptedPassword --> WriteIt["writes the contents of dword to password.csv"]
+                WriteIt --> Returntrue["return True"]
+            end
+        
         end
 
+        IsPath --> |True| readpasswordenc
+
+        try5 --> |Exception| Errordecryption["Error decryption"] --> Exit3["Exit"]
 
     end
 
