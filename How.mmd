@@ -20,7 +20,6 @@ flowchart TD
         InputUserPassword --> Process["Inserts it using user, website, password"]
 
         Input1 --> if2{"if user input x is 2"}
-        if2 --> |True| DecryptsPasswordreadOnly
 
         Input1 --> if3{"if user input x is 3"}
         if3 --> |True| DecryptPassWebsite[decrypt.decryptpasswordshowwebsite]
@@ -31,6 +30,8 @@ flowchart TD
         Input1 --> |Else| Exit
         Input1 --> |Not A number| displayErr["User Didn't follow instruction"] --> Exit
     end
+
+    if2 --> |true| Check2
 
     subgraph ModuleInsert["Module: insert"]
         Process --> DeclareVariable1["initialize variable: newjob, check, encrypt, decrypt"]
@@ -84,6 +85,15 @@ flowchart TD
         KeyFileCheck1 --> |False| PasswordFileCheck1{is ./passwords.csv.ali exists?}
         PasswordFileCheck1 --> |False| Open
 
+        subgraph decryptpasswordro["function deccryptpasswordro"]
+            Check2{"is checkit() == True?"} --> |True| Openpass["Opens password.csv.ali as bynary"]
+            --> Decrypt["Decrypt the encrypted passwords.csv.ali"]
+            --> OpenDecryptedFile["Opens the decrypted password file"]
+            --> ReadRo["Readss the passwords and returns the value of it"]
+            --> Return3["Returns content"]
+
+            Check2 --> |False| PasswordErr["The Key turns out to be corrupted, mismatched or rotten"]
+        end
 
         subgraph decryptpasswordwrite["function: decryptpasswordwrite"]
             CheckIt1["is passwords.csv.ali exists?"] --> |True| IsPath["is password.csv.ali exist?"]
