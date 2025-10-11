@@ -67,8 +67,8 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 ```mermaid
 gitGraph
+  branch main-rc
   checkout main-rc
-  commit
   commit
   commit
   commit
@@ -80,6 +80,8 @@ gitGraph
   commit
   commit
   commit
+  commit
+  merge main-rc
 ```
 
 ---
