@@ -1,27 +1,16 @@
 flowchart TD
-    start(("start main")) --> passworenc
+    start(("start main")) --> CheckPasswordFiles
+    Display[\"welcome to password manager"\]
+    Check --> |False| InvalidKey[\"Display: Invalid Key"\]
+    Check --> |True| Continue
 
-    subgraph TestEncryption["checkit"]
-        passworenc{"if ./password.csv.ali exist"} --> |True| keyfile{"if key.key exist"} 
-        keyfile --> |True| True
-
-        passworenc --> |False| trydecrypt["Open password file"]
-        trydecrypt --> TryDecrypt["decrypt it"]
-        TryDecrypt --> |Correct key| True
-
-        TryDecrypt --> |exception| False
-    end
-
-    TestEncryption --> |True| Continue
-
-    TestEncryption --> Display[\"welcome to password manager"\]
-    TestEncryption --> |False| InvalidKey["\Display: Invalid Key"\]
+    start --> Display
 
     Display --> Display2[\"Choose what to do: "\]
 
+    Display2 --> Input1[/"User Input x = input()"/]
     subgraph tryblock1["Try"]
-        Display2 --> Input1[/"User Input x = input()"/]
-
+    
         Input1 --> if1{"if User Input x is 1"}
 
         if1 --> |True| InputUser[/"user = Your username"/]
@@ -61,6 +50,7 @@ flowchart TD
             CheckPasswordFileagain --> |False| DisplayMissingFile[\"missing file due to failed decryption. exiting"\] --> Exit5["Exit"]
             OpenDecrypted --> InsertFinal["Finaly inserts: user, website password"]
             InsertFinal --> savepassworddec["Saves as passwords.csv unencrypted"]
+            --> OpenDecPass
         end
 
         subgraph MakeKey["make_key module"]
@@ -130,7 +120,6 @@ flowchart TD
         subgraph IsKeymatched["function: IsKeyMatched"]
             CheckPasswordFiles{"is passwords.csv.ali exist?"} --> |False| CheckKeyFiles{"Is key.key exist?"}
             CheckKeyFiles --> |False| Return["Return True"]
-
             subgraph try4["Try"]
                 OpenCrypted["opens the encrypted passwords.csv.ali as data"] --> DecryptIt["try to decrypt it using key.key"]
                 DecryptIt --> Return
@@ -147,5 +136,32 @@ flowchart TD
 
     end
 
+    subgraph Encrypt["Module: Encrypt"]
+        InitEncrypt(("Initialize"))
+        --> IskeyExist{"is key.key exists?"} --> |false| Createkey
+        IskeyExist --> |True| readkey["reads key.key<br>and initialize Fernet"]
 
-    Display2 --> tryblock1 --> |Error\Exception| ExitSafely
+        IskeyExist --> IsdecFileExist{"is passwords.csv exists?"}
+        IsdecFileExist --> |False| IsEncFileExist{"is passwords.csv.ali exists?"}
+        IsEncFileExist --> |False| Open
+
+        subgraph encryptpasswords["Function encryptpasswords"]
+
+            subgraph try6["try"]
+                OpenDecPass["reads the content of passwords.csv"]
+                --> EncryptContentPass["encrypts the readed content"]
+
+                --> OpenEncPass["Opens or cretes encrypted passwords.csv.ali"]
+                --> WriteEncToFile["writes the encrypted content to passwords.csv.ali"]
+                --> DeleteDecrypt["Delete unencrypted passwords.csv"]
+            end
+
+            try6 --> RaiseSyntaxError
+            --> Exit8["Exit"]
+
+        end
+
+    end
+
+
+    tryblock1 --> |Error\Exception| ExitSafely
