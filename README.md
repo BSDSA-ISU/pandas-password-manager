@@ -65,6 +65,23 @@
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
+```mermaid
+gitGraph
+  checkout main-rc
+  commit
+  commit
+  commit
+  commit
+  commit
+  commit
+  checkout main
+  commit
+  commit
+  commit
+  commit
+  commit
+```
+
 ---
 
 ### Q and A 💬
