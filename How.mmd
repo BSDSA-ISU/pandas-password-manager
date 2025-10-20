@@ -22,16 +22,16 @@ flowchart TD
         Input1 --> if2{"if user input x is 2"}
 
         Input1 --> if3{"if user input x is 3"}
-        if3 --> |True| DecryptPassWebsite[decrypt.decryptpasswordshowwebsite]
-        DecryptPassWebsite --> DisplaySites[\"Display the list of websites from decrypted password"\]
-        DisplaySites --> PickWebsites["website = pick a website"]
-        PickWebsites --> ShowWebsite["Shows the website if it exists"]
 
         Input1 --> |Else| Exit
         Input1 --> |Not A number| displayErr["User Didn't follow instruction"] --> Exit
     end
 
     if2 --> |true| Check2
+    if3 --> |True| CkeckIfvalid
+
+    if3
+    --> |after Decrypting via showwebsite| CkeckIfvalid2
 
     subgraph ModuleInsert["Module: insert"]
         Process --> DeclareVariable1["initialize variable: newjob, check, encrypt, decrypt"]
@@ -93,6 +93,30 @@ flowchart TD
             --> Return3["Returns content"]
 
             Check2 --> |False| PasswordErr["The Key turns out to be corrupted, mismatched or rotten"]
+        end
+
+        subgraph decryptpasswordshowwebsite["function: decryptpasswordshowwebsite"]
+            CkeckIfvalid{"Is the key and file okay?"}
+            --> |true| OpenPasswordFile2["Opens passwords.csv.ali"]
+            --> DecryptPassword2["Decrypts the content of it and writes it to passwords.csv"]
+            --> Readpasscsv["Reads the passwords as csv"]
+            --> CreateAlphabt["Creates the alphabet lists"]
+            --> Sort3["Sorts the website column contents horizontaly"]
+            --> forloop2[\"Forloop with nested for. to print all websites and shows per alphabet"\]
+            --> deletepasswordfile3["deletes the unencrypted passwords.csv"]
+
+            CkeckIfvalid --> |False| PrintErr3[\"prints The Key turns out to be corrupted, mismatched or rotten"\]
+        end
+
+        subgraph FindWebsite["function: FindWebsite"]
+            CkeckIfvalid2{"Is the key and file okay?"}
+            --> |true| OpenPasswordFile3["Opens passwords.csv.ali"]
+            --> DecryptPassword3["Decrypts the content of it and writes it to passwords.csv"]
+            --> Readpasscsv2["Reads the passwords as csv"]
+            --> SearchPassword["Searches for the website and if found, stores the password with the website"]
+            --> deletepasswordfile4["deletes the unencrypted passwords.csv"]
+            --> Return5["Returns the result"]
+
         end
 
         subgraph decryptpasswordwrite["function: decryptpasswordwrite"]

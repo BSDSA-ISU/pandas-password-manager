@@ -4,6 +4,7 @@ from utils.FirstInit import make_password_file, make_key
 import os
 import binascii
 import pandas as pd
+import sys
 
 class Decrypt:
 
@@ -131,5 +132,5 @@ def Error(ErrType : str):
         exit(9)
 
     print("Something went wrong")
-    exit(1)
+    sys.exit(1)
 
