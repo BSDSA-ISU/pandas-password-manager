@@ -90,12 +90,20 @@ class Decrypt:
                 cache.write(dword)
         
             sss = pd.read_csv("passwords.csv", index_col=0)
+            alphabet = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+            alphaarr = alphabet.split(",")
             a = sss['website'].sort_values(ascending=True).unique() # type: ignore
+            for _ in alphaarr:
+                print(_.upper(), ": ")
+
+                for __ in a:
+                    if __.lower().startswith(_):
+                        print("    ", __)
+                print()
+
+            del _, __, alphabet, alphaarr
             os.remove("passwords.csv")
-        
-            for i in a:
-                print(i)
-        
+
             return a
 
         else:
