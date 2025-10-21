@@ -2,6 +2,7 @@ from colorama import Fore
 from utils.Password import Password
 from utils.Decryption import Decrypt
 from utils.TestEncryption import Checkit
+import sys
 
 if Checkit():
     pass
@@ -39,3 +40,4 @@ try:
 
 except Exception:
     print(F"{Fore.RED}User Didn't follow the instruction. exiting{Fore.RESET}")
+    sys.exit(1)

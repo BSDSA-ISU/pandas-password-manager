@@ -12,7 +12,7 @@ class Check:
 
 
     def IsKeyMatched(self):
-        if os.path.isfile("./password.csv.ali") != True and not os.path.isfile("./key.key"):
+        if not os.path.isfile("./password.csv.ali") or not os.path.isfile("./key.key"):
             return True
         try:
             data = open("passwords.csv.ali", "rb").read()
