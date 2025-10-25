@@ -100,7 +100,6 @@ class Decrypt:
                 print()
 
             del _, __, alphabet, alphaarr
-            os.remove("passwords.csv")
 
             return a
 
@@ -110,13 +109,9 @@ class Decrypt:
     def FindWebsite(self, website : str):
         if check() == True:
             with open("passwords.csv.ali", "rb") as data:
-                dword = fernet.decrypt(data.read())
+                dword = io.BytesIO(fernet.decrypt(data.read())).getvalue().decode("utf-8")
         
-            with open("passwords.csv", "wb") as cache:
-                cache.write(dword)
-        
-            sss = pd.read_csv("passwords.csv", index_col=0)
-            os.remove("passwords.csv")
+            sss = pd.read_csv(io.StringIO(dword), index_col=0)
 
         entry = sss[sss['website'].str.contains(website, case=False)]
         return entry
