@@ -1,6 +1,6 @@
 from cryptography.fernet import Fernet, InvalidToken
 from utils.TestEncryption import Checkit as check
-import binascii
+import io
 import pandas as pd
 import os
 from utils.FirstInit import make_password_file, make_key
@@ -21,14 +21,13 @@ class Encrypt:
             make_password_file()
 
     # Encrypts the passowrd file back and deletes the unencrypted one
-    def encryptpasswords(self):
+    def encryptpasswords(self, Data: bytes):
         try:
-            with open("passwords.csv", "rb") as data:
-                dword = fernet.encrypt(data.read())
+            dword = fernet.encrypt(Data)
             with open("passwords.csv.ali", "wb") as thisdata:
                 thisdata.write(dword)
-                os.remove("passwords.csv")
                 return True
+                
         except Exception:
             raise SyntaxError("Eee")
 
