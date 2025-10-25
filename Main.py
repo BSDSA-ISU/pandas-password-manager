@@ -1,8 +1,11 @@
-from colorama import Fore
+from colorama import init, Fore
 from utils.Password import Password
 from utils.Decryption import Decrypt
 from utils.TestEncryption import Checkit
 import sys
+
+if not sys.platform == "Linux":
+    init()
 
 if Checkit():
     pass
