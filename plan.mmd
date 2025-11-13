@@ -1,0 +1,4 @@
+flowchart TD
+    A[start] --> B["Decrypt to memory first"]
+    --> C[Failed?] --> |False| D["continue"] 
+    C --> |True| Exit
