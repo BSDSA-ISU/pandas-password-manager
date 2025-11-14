@@ -41,14 +41,14 @@ class Decryption:
         # Encrypt back the database
         # Encryption.Encrypt()
 
-    def Show(self, Search = ""):
+    def Show(self, Search=""):
         con = sqlite3.connect("temp.db")
         cursor = con.cursor()
-        
+
         if Search == "":
-            for row in cursor.execute("SELECT * FROM passwords"):
-                print(row)
+            cursor.execute("SELECT * FROM passwords")
         else:
-            for row in cursor.execute("SELECT * FROM passwords"):
-                if Search in row[0]:
-                    print("Password for", row[0], "with username", row[1], "is:", row[2])
+            cursor.execute("SELECT * FROM passwords WHERE website LIKE ?", (f"%{Search}%",))
+
+        for row in cursor.fetchall():
+            print("Password for", row[0], "with username", row[1], "is:", row[2])

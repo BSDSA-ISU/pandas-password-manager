@@ -1,3 +1,8 @@
 flowchart TD
     A[Start and import everything] --> B["load fernet key"]
     --> C["Try decrypting to temporary File"] --> |Failed| Exit
+
+    subgraph Insert["Insert(website, username, password)"]
+        AA["Open the decrypted database"] --> AB["execute: 'CREATE TABLE IF NOT EXISTS passwords (website TEXT, username TEXT, password TEXT)'"]
+        --> AC["Inserts the website, username, password entry by user"]
+    end
