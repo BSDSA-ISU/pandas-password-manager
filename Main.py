@@ -4,8 +4,8 @@ from utils.Encryption import Encrypt
 decrypt = Decryption()
 
 
-decrypt.Insert("ali", "alei", "alilinux")
+decrypt.Insert("googledotcom", "alei", "alilinux")
 
-decrypt.Show(Search="ali")
+decrypt.Show(Search="googled")
 
 Encrypt()
