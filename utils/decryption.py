@@ -9,25 +9,28 @@ firstrun.firstrun()
 # File is data.db.enc
 
 class Decryption:
-    def __init__(self) -> None:
+    @staticmethod
+    def Decrypt():
         # load key
 
         if os.path.isfile("key.key"):
             with open("key.key", "rb") as key:
                 data = key.read()
-                self.fernet = Fernet(key=data)
+                fernet = Fernet(key=data)
 
         # load db
         if os.path.isfile("data.db.aes"):
             with open("data.db.aes", "rb") as database_encrypted:
                 database = database_encrypted.read()
 
-            content = self.fernet.decrypt(database)
+            content = fernet.decrypt(database)
 
             with open("temp.db", "wb") as dbd:
                 dbd.write(content)
 
     def Insert(self, website, username, password):
+        Decryption.Decrypt()
+
         # Open the decrypted database
         conn = sqlite3.connect("temp.db")
         cursor = conn.cursor()
@@ -39,9 +42,10 @@ class Decryption:
         conn.close()
 
         # Encrypt back the database
-        # Encryption.Encrypt()
+        Encryption.Encrypt()
 
     def Show(self, Search=""):
+        Decryption.Decrypt()
         con = sqlite3.connect("temp.db")
         cursor = con.cursor()
 
@@ -52,3 +56,38 @@ class Decryption:
 
         for row in cursor.fetchall():
             print("Password for", row[0], "with username", row[1], "is:", row[2])
+
+        Encryption.Encrypt()
+
+    def Delete(self, website, username, password):
+        Decryption.Decrypt()
+
+        # Delete an entry in db
+
+        con = sqlite3.connect("temp.db")
+        cursor = con.cursor()
+
+        cursor.execute(
+            "DELETE FROM passwords WHERE website = ? AND username = ? AND password = ?",
+            (website, username, password)
+        )
+
+        con.commit()
+        con.close()
+
+        Encryption.Encrypt()
+
+    def EntryCount(self):
+        Decryption.Decrypt()
+
+        # counts how many lines are on database
+
+        con = sqlite3.connect("temp.db")
+        cursor = con.cursor()
+
+        cursor.execute("SELECT * FROM passwords")
+
+        for _ in cursor.fetchall():
+            count=+1
+        
+        print("there is", count, "entries")
