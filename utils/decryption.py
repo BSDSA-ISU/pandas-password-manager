@@ -3,6 +3,7 @@ from cryptography.fernet import Fernet
 import os
 from utils import firstrun
 from utils import Encryption
+import sys
 
 firstrun.firstrun()
 
@@ -23,7 +24,11 @@ class Decryption:
             with open("data.db.aes", "rb") as database_encrypted:
                 database = database_encrypted.read()
 
-            content = fernet.decrypt(database)
+            try:
+                content = fernet.decrypt(database)
+            except Exception:
+                print("Invalid key or token provided. Is your key vaild or matched?")
+                sys.exit(1)
 
             with open("temp.db", "wb") as dbd:
                 dbd.write(content)
@@ -86,8 +91,30 @@ class Decryption:
         cursor = con.cursor()
 
         cursor.execute("SELECT * FROM passwords")
-
+        count = 0
         for _ in cursor.fetchall():
-            count=+1
+            count = count + 1
         
         print("there is", count, "entries")
+
+    def Show_website(self):
+        Decryption.Decrypt()
+
+        con = sqlite3.connect("temp.db")
+        cursor = con.cursor()
+
+        cursor.execute("SELECT website FROM passwords ORDER BY website COLLATE NOCASE;")
+
+        x = cursor.fetchall()
+
+        # Print all websites
+        for _ in x:
+            print(_)
+
+"""
+
+SELECT *
+FROM passwords
+ORDER BY website COLLATE NOCASE;
+
+"""
