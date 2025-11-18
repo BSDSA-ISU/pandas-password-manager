@@ -14,20 +14,20 @@ class Decryption:
     def Decrypt():
         # load key
 
-        if os.path.isfile("key.key"):
-            with open("key.key", "rb") as key:
+        if os.path.isfile("./PersonalFiles/key.key"):
+            with open("./PersonalFiles/key.key", "rb") as key:
                 data = key.read()
                 fernet = Fernet(key=data)
 
         # load db
-        if os.path.isfile("data.db.aes"):
-            with open("data.db.aes", "rb") as database_encrypted:
+        if os.path.isfile("./PersonalFiles/data.db.aes"):
+            with open("./PersonalFiles/data.db.aes", "rb") as database_encrypted:
                 database = database_encrypted.read()
 
             try:
                 content = fernet.decrypt(database)
             except Exception:
-                print("Invalid key or token provided. Is your key vaild or matched?")
+                print("Invalid key provided or lost key. Is your key vaild or matched?")
                 sys.exit(1)
 
             with open("temp.db", "wb") as dbd:
@@ -110,6 +110,12 @@ class Decryption:
         # Print all websites
         for _ in x:
             print(_)
+
+    @staticmethod
+    def Check():
+        Decryption.Decrypt()
+        os.remove("temp.db")
+
 
 """
 
