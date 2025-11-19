@@ -60,7 +60,11 @@ class Decryption:
             cursor.execute("SELECT * FROM passwords WHERE website LIKE ?", (f"%{Search}%",))
 
         for row in cursor.fetchall():
-            print("Password for", row[0], "with username", row[1], "is:", row[2])
+            print(f"Account Website: {row[0]}")
+            print(f"Username: {row[1]}")
+            print(f"Password: {row[2]}")
+            print("———————————————")
+
 
         Encryption.Encrypt()
 
@@ -114,7 +118,14 @@ class Decryption:
     @staticmethod
     def Check():
         Decryption.Decrypt()
-        os.remove("temp.db")
+        try:
+            os.remove("temp.db")
+        except Exception:
+            pass
+    
+    def clear(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
+
 
 
 """
