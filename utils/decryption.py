@@ -33,6 +33,43 @@ class Decryption:
             with open("temp.db", "wb") as dbd:
                 dbd.write(content)
 
+    def Update(self, website, username, new_password):
+        Decryption.Decrypt()
+        con = sqlite3.connect("temp.db")
+        cursor = con.cursor()
+
+        # Check if the entry exists
+        cursor.execute("SELECT * FROM passwords WHERE website LIKE ? AND username LIKE ?", 
+                   (f"%{website}%", f"%{username}%"))
+        result = cursor.fetchone()
+
+        if not result:
+            print("No matching entry found.")
+            Encryption.Encrypt()
+            return
+
+        print("Found entry:")
+        print(f"Website: {result[0]}")
+        print(f"Username: {result[1]}")
+        print(f"Password: {result[2]}")
+        print("———————————————")
+
+        # Ask user for confirmation
+        confirm = input("Do you want to update the password for this entry? (y/n): ").lower()
+        if confirm != "y":
+            print("Update cancelled.")
+            Encryption.Encrypt()
+            return
+
+        # Perform the update
+        cursor.execute("UPDATE passwords SET password = ? WHERE website LIKE ? AND username LIKE ?", 
+                   (new_password, f"%{website}%", f"%{username}%"))
+        con.commit()
+        print("Password updated successfully!")
+
+        Encryption.Encrypt()
+
+
     def Insert(self, website, username, password):
         Decryption.Decrypt()
 

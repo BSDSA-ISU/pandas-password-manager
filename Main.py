@@ -1,13 +1,13 @@
-from colorama import Fore, init
 from utils.decryption import Decryption
-
-init()
+from colorama import Fore
 
 Decryption.Check()
 
+print("#################################################################################\n")
+
 decryption = Decryption()
 
-print(f"{Fore.GREEN} Alieelinux's Password Manager {Fore.RESET}")
+print(f"{Fore.GREEN}Welcome to Alieelinux's Password Manager {Fore.RESET}")
 
 print()
 
@@ -16,7 +16,10 @@ print("1. Find website and show the passwords")
 print("2. Insert a password")
 print("3. Delete")
 print("4. Show all Entries")
-print("5. Exit")
+print("5. Update entry")
+print("6. exit")
+
+print("\n#############################################################")
 
 x = int(input("\n>>"))
 
@@ -41,4 +44,8 @@ if x == 3:
 if x == 4:
     decryption.clear()
     decryption.Show()
-
+if x == 5:
+    website = input("existing website\n>>")
+    username = input("esisting Username\n>>")
+    password = input("new password\n>>")
+    decryption.Update(website=website, username=username, new_password=password)
