@@ -1,2 +1,4 @@
 *aes
 key.key
+*.pyc
+*.ali
